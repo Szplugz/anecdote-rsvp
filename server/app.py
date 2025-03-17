@@ -107,6 +107,7 @@ def create_notion_page(data):
         raise NotionError(f"Failed to create Notion page: {str(e)}")
 
 @app.route("/health", methods=["GET"])
+@app.route("/api/health", methods=["GET"])
 def health_check():
     """Health check endpoint that also verifies Notion connectivity"""
     try:

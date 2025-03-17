@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Newsreader } from "next/font/google"
 import { usePathname } from "next/navigation"
+import { API_BASE_URL } from "./config"
 
 // Add Newsreader font for success screen
 // We'll use a CSS class instead to apply the font
@@ -345,7 +346,7 @@ export default function Home() {
         setIsSubmitting(true);
         
         // Send the data to our Flask server
-        const response = await fetch('http://localhost:5001/api/rsvp', {
+        const response = await fetch(`${API_BASE_URL}/api/rsvp`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
