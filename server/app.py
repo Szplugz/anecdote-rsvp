@@ -210,13 +210,14 @@ def handle_rsvp():
             "details": str(e)
         }), 500
 
-if __name__ == "__main__":
-    # Validate Notion config on startup
-    try:
-        validate_notion_config()
-    except NotionError as e:
-        logger.error(f"Failed to start server: {str(e)}")
-        sys.exit(1)
+# Initialize Notion configuration on import
+try:
+    validate_notion_config()
+except NotionError as e:
+    logger.error(f"Failed to initialize Notion: {str(e)}")
+    # Don't exit here since Gunicorn would restart the worker
 
+if __name__ == "__main__":
+    # For local development only
     port = int(os.getenv("PORT", 5001))
     app.run(host="0.0.0.0", port=port, debug=True)
