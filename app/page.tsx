@@ -341,8 +341,8 @@ export default function Home() {
         // Show loading state
         setIsSubmitting(true);
         
-        // Send the data to our API endpoint
-        const response = await fetch('/api/rsvp', {
+        // Send the data to our Flask server
+        const response = await fetch('http://localhost:5001/api/rsvp', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -1,0 +1,59 @@
+2025-03-17 12:21:18.468 | ERROR    | __main__:<module>:204 - Failed to start server: Notion API key is not configured
+2025-03-17 12:32:40.417 | ERROR    | __main__:validate_notion_config:47 - Failed to connect to Notion database: Could not find database with ID: 1b93ba5f-33e9-804b-ab88-f66e2254d37d. Make sure the relevant pages and databases are shared with your integration.
+2025-03-17 12:32:40.418 | ERROR    | __main__:<module>:204 - Failed to start server: Failed to connect to Notion database: Could not find database with ID: 1b93ba5f-33e9-804b-ab88-f66e2254d37d. Make sure the relevant pages and databases are shared with your integration.
+2025-03-17 12:33:55.245 | ERROR    | __main__:validate_notion_config:47 - Failed to connect to Notion database: Could not find database with ID: 1b93ba5f-33e9-804b-ab88-f66e2254d37d. Make sure the relevant pages and databases are shared with your integration.
+2025-03-17 12:33:55.246 | ERROR    | __main__:<module>:204 - Failed to start server: Failed to connect to Notion database: Could not find database with ID: 1b93ba5f-33e9-804b-ab88-f66e2254d37d. Make sure the relevant pages and databases are shared with your integration.
+2025-03-17 12:37:06.743 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 12:39:05.821 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 12:39:06.334 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 12:39:46.240 | DEBUG    | __main__:handle_rsvp:121 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'g', 'email': 'q@gm.com', 'phone': '+1 (288)-827-8728', 'about': 'jwhbd'}]}
+2025-03-17 12:39:46.987 | INFO     | __main__:create_notion_page:93 - Successfully created Notion page for g
+2025-03-17 12:39:46.987 | INFO     | __main__:handle_rsvp:165 - Successfully processed RSVP for g and 0 friends
+2025-03-17 12:52:42.758 | DEBUG    | __main__:handle_rsvp:121 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'neel', 'email': 'neel@neel.com', 'phone': '+1 (183)-972-8372', 'about': 'jbsjbwhdsbwhdbd'}]}
+2025-03-17 12:52:43.473 | INFO     | __main__:create_notion_page:93 - Successfully created Notion page for neel
+2025-03-17 12:52:43.473 | INFO     | __main__:handle_rsvp:165 - Successfully processed RSVP for neel and 0 friends
+2025-03-17 12:53:18.023 | DEBUG    | __main__:handle_rsvp:121 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'jnj', 'email': 'hb@gmailc.com', 'phone': '+1 (923)-982-9328', 'about': 'xshbs'}, {'name': 'j', 'email': '', 'phone': '', 'about': 'gfgf'}]}
+2025-03-17 12:53:18.559 | INFO     | __main__:create_notion_page:93 - Successfully created Notion page for jnj
+2025-03-17 12:53:18.980 | ERROR    | __main__:create_notion_page:96 - Failed to create Notion page: body failed validation. Fix one:
+body.properties.Email.title should be defined, instead was `undefined`.
+body.properties.Email.rich_text should be defined, instead was `undefined`.
+body.properties.Email.number should be defined, instead was `undefined`.
+body.properties.Email.url should be defined, instead was `undefined`.
+body.properties.Email.select should be defined, instead was `undefined`.
+body.properties.Email.multi_select should be defined, instead was `undefined`.
+body.properties.Email.people should be defined, instead was `undefined`.
+body.properties.Email.email should be populated or `null`, instead was `""`.
+body.properties.Email.phone_number should be defined, instead was `undefined`.
+body.properties.Email.date should be defined, instead was `undefined`.
+body.properties.Email.checkbox should be defined, instead was `undefined`.
+body.properties.Email.relation should be defined, instead was `undefined`.
+body.properties.Email.files should be defined, instead was `undefined`.
+body.properties.Email.status should be defined, instead was `undefined`.
+body.properties.Name.id should be defined, instead was `undefined`.
+body.properties.Name.name should be defined, instead was `undefined`.
+body.properties.Name.start should be defined, instead was `undefined`.
+Data: {'name': 'j', 'email': '', 'phone': '', 'about': 'gfgf', 'day': 'friday', 'guest_type': 'Friend', 'primary_contact': 'jnj'}
+2025-03-17 12:53:18.980 | ERROR    | __main__:handle_rsvp:184 - Notion error: Failed to create Notion page: body failed validation. Fix one:
+body.properties.Email.title should be defined, instead was `undefined`.
+body.properties.Email.rich_text should be defined, instead was `undefined`.
+body.properties.Email.number should be defined, instead was `undefined`.
+body.properties.Email.url should be defined, instead was `undefined`.
+body.properties.Email.select should be defined, instead was `undefined`.
+body.properties.Email.multi_select should be defined, instead was `undefined`.
+body.properties.Email.people should be defined, instead was `undefined`.
+body.properties.Email.email should be populated or `null`, instead was `""`.
+body.properties.Email.phone_number should be defined, instead was `undefined`.
+body.properties.Email.date should be defined, instead was `undefined`.
+body.properties.Email.checkbox should be defined, instead was `undefined`.
+body.properties.Email.relation should be defined, instead was `undefined`.
+body.properties.Email.files should be defined, instead was `undefined`.
+body.properties.Email.status should be defined, instead was `undefined`.
+body.properties.Name.id should be defined, instead was `undefined`.
+body.properties.Name.name should be defined, instead was `undefined`.
+body.properties.Name.start should be defined, instead was `undefined`.
+2025-03-17 12:53:26.097 | DEBUG    | __main__:handle_rsvp:121 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'jnj', 'email': 'hb@gmailc.com', 'phone': '+1 (923)-982-9328', 'about': 'xshbs'}]}
+2025-03-17 12:53:36.036 | INFO     | __main__:create_notion_page:93 - Successfully created Notion page for jnj
+2025-03-17 12:53:36.036 | INFO     | __main__:handle_rsvp:165 - Successfully processed RSVP for jnj and 0 friends
+2025-03-17 12:53:42.970 | DEBUG    | __main__:handle_rsvp:121 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'h', 'email': 'h@g.com', 'phone': '+1 (928)-983-9283', 'about': 'sdjwd'}]}
+2025-03-17 12:53:43.794 | INFO     | __main__:create_notion_page:93 - Successfully created Notion page for h
+2025-03-17 12:53:43.794 | INFO     | __main__:handle_rsvp:165 - Successfully processed RSVP for h and 0 friends
