@@ -5,6 +5,7 @@ import { Minus, Plus } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Newsreader } from "next/font/google"
+import { usePathname } from "next/navigation"
 
 // Add Newsreader font for success screen
 // We'll use a CSS class instead to apply the font
@@ -14,6 +15,8 @@ const newsreader = Newsreader({
 })
 
 export default function Home() {
+  const pathname = usePathname()
+  const isVerci = pathname?.includes('verci')
   const [isLoaded, setIsLoaded] = useState(false)
   type DayKey = 'thursday' | 'friday' | 'saturday';
 
@@ -668,11 +671,155 @@ export default function Home() {
 
             <div className="space-y-6">
               <div className={day1Class}>
-                <DisabledDateSelector
-                  day="thursday"
-                  date="march 20"
-                  tooltipText="this day is reserved for verci members. if you're a member, please check your email for a separate rsvp link."
-                />
+                {isVerci ? (
+                  <>
+                    <DateSelector
+                      day="thursday"
+                      date="march 20"
+                      count={counts.thursday}
+                      onIncrement={() => increment("thursday")}
+                      onDecrement={() => decrement("thursday")}
+                    />
+
+                    <AnimatePresence initial={false}>
+                      {counts.thursday > 0 && (
+                        <motion.div
+                          key={`thursday-form-container`}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          variants={formVariants}
+                          className="space-y-4"
+                        >
+                          <AnimatePresence mode="wait" initial={false}>
+                            <motion.div
+                              key={`thursday-step-${currentStep.thursday}`}
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -20 }}
+                              transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                              className="space-y-4"
+                            >
+                              {currentStep.thursday === 0 ? (
+                                // First person form
+                                <>
+                                  <FormField
+                                    label="your name"
+                                    value={formData.thursday[0]?.name || ""}
+                                    onChange={(value) => handleInputChange("thursday", 0, "name", value)}
+                                    error={errors.thursday[0]?.name}
+                                    required
+                                  />
+
+                                  <AnimatePresence>
+                                    <motion.div initial="visible" animate="visible" exit="exit" variants={fieldVariants}>
+                                      <FormField
+                                        label="email"
+                                        type="email"
+                                        value={formData.thursday[0]?.email || ""}
+                                        onChange={(value) => handleInputChange("thursday", 0, "email", value)}
+                                        error={errors.thursday[0]?.email}
+                                        required
+                                      />
+                                    </motion.div>
+                                  </AnimatePresence>
+
+                                  <AnimatePresence>
+                                    <motion.div initial="visible" animate="visible" exit="exit" variants={fieldVariants}>
+                                      <FormField
+                                        label="phone number"
+                                        type="tel"
+                                        value={formData.thursday[0]?.phone || ""}
+                                        onChange={(value) => handleInputChange("thursday", 0, "phone", value)}
+                                        error={errors.thursday[0]?.phone}
+                                        errorMessage={phoneError}
+                                        required
+                                      />
+                                    </motion.div>
+                                  </AnimatePresence>
+
+                                  <TextareaField
+                                    label="tell me a little bit about yourself"
+                                    placeholder="so that I can introduce you to people you'll vibe with:)"
+                                    value={formData.thursday[0]?.about || ""}
+                                    onChange={(value) => handleInputChange("thursday", 0, "about", value)}
+                                    error={errors.thursday[0]?.about}
+                                    required
+                                  />
+                                </>
+                              ) : (
+                                // Friend form
+                                <>
+                                  <FormField
+                                    label={getFriendLabel(currentStep.thursday, counts.thursday)}
+                                    value={formData.thursday[currentStep.thursday]?.name || ""}
+                                    onChange={(value) => handleInputChange("thursday", currentStep.thursday, "name", value)}
+                                    error={errors.thursday[currentStep.thursday]?.name}
+                                    required
+                                  />
+
+                                  <TextareaField
+                                    label="tell me a little bit about them"
+                                    placeholder="so that I can introduce them to people they'll vibe with:)"
+                                    value={formData.thursday[currentStep.thursday]?.about || ""}
+                                    onChange={(value) => handleInputChange("thursday", currentStep.thursday, "about", value)}
+                                    error={errors.thursday[currentStep.thursday]?.about}
+                                    required
+                                  />
+                                </>
+                              )}
+
+                              <motion.div
+                                className="flex gap-4"
+                                layout
+                                transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                              >
+                                <AnimatePresence mode="popLayout">
+                                  {currentStep.thursday > 0 && (
+                                    <motion.button
+                                      initial={{ opacity: 0, scale: 0.8 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      exit={{ opacity: 0, scale: 0.8 }}
+                                      transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                                      className="rounded-md bg-[#cacaca] px-5 py-4 text-black font-medium w-[calc(50%-0.5rem)] hover:bg-[#b8b8b8] transition-colors duration-200"
+                                      onClick={() => prevStep("thursday")}
+                                    >
+                                      back
+                                    </motion.button>
+                                  )}
+                                </AnimatePresence>
+
+                                <motion.button
+                                  layout
+                                  disabled={isSubmitting}
+                                  transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                                  className={`rounded-md bg-[#542a31] px-5 py-4 text-[#eae9e4] font-medium italic hover:bg-[#441f25] transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed ${
+                                    currentStep.thursday > 0 ? "w-[calc(50%-0.5rem)]" : "w-full"
+                                  }`}
+                                  onClick={() => {
+                                    if (currentStep.thursday < counts.thursday - 1) {
+                                      nextStep("thursday")
+                                    } else {
+                                      handleSubmit("thursday")
+                                    }
+                                  }}
+                                >
+                                  {isSubmitting ? "Submitting..." : currentStep.thursday < counts.thursday - 1 ? "next" : "rsvp"}
+                                </motion.button>
+                              </motion.div>
+                            </motion.div>
+                          </AnimatePresence>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <DisabledDateSelector
+                    day="thursday"
+                    date="march 20"
+                    tooltipText="this day is reserved for verci members. if you're a member, please check your email for a separate rsvp link."
+                  />
+                )}
               </div>
 
               <div className={day2Class}>
@@ -832,11 +979,155 @@ export default function Home() {
               </div>
 
               <div className={day3Class}>
-                <DisabledDateSelector
-                  day="saturday"
-                  date="march 22"
-                  tooltipText="unfortunately, this day is at capacity :/"
-                />
+                {isVerci ? (
+                  <>
+                    <DateSelector
+                      day="saturday"
+                      date="march 22"
+                      count={counts.saturday}
+                      onIncrement={() => increment("saturday")}
+                      onDecrement={() => decrement("saturday")}
+                    />
+
+                    <AnimatePresence initial={false}>
+                      {counts.saturday > 0 && (
+                        <motion.div
+                          key={`saturday-form-container`}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          variants={formVariants}
+                          className="space-y-4"
+                        >
+                          <AnimatePresence mode="wait" initial={false}>
+                            <motion.div
+                              key={`saturday-step-${currentStep.saturday}`}
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -20 }}
+                              transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                              className="space-y-4"
+                            >
+                              {currentStep.saturday === 0 ? (
+                                // First person form
+                                <>
+                                  <FormField
+                                    label="your name"
+                                    value={formData.saturday[0]?.name || ""}
+                                    onChange={(value) => handleInputChange("saturday", 0, "name", value)}
+                                    error={errors.saturday[0]?.name}
+                                    required
+                                  />
+
+                                  <AnimatePresence>
+                                    <motion.div initial="visible" animate="visible" exit="exit" variants={fieldVariants}>
+                                      <FormField
+                                        label="email"
+                                        type="email"
+                                        value={formData.saturday[0]?.email || ""}
+                                        onChange={(value) => handleInputChange("saturday", 0, "email", value)}
+                                        error={errors.saturday[0]?.email}
+                                        required
+                                      />
+                                    </motion.div>
+                                  </AnimatePresence>
+
+                                  <AnimatePresence>
+                                    <motion.div initial="visible" animate="visible" exit="exit" variants={fieldVariants}>
+                                      <FormField
+                                        label="phone number"
+                                        type="tel"
+                                        value={formData.saturday[0]?.phone || ""}
+                                        onChange={(value) => handleInputChange("saturday", 0, "phone", value)}
+                                        error={errors.saturday[0]?.phone}
+                                        errorMessage={phoneError}
+                                        required
+                                      />
+                                    </motion.div>
+                                  </AnimatePresence>
+
+                                  <TextareaField
+                                    label="tell me a little bit about yourself"
+                                    placeholder="so that I can introduce you to people you'll vibe with:)"
+                                    value={formData.saturday[0]?.about || ""}
+                                    onChange={(value) => handleInputChange("saturday", 0, "about", value)}
+                                    error={errors.saturday[0]?.about}
+                                    required
+                                  />
+                                </>
+                              ) : (
+                                // Friend form
+                                <>
+                                  <FormField
+                                    label={getFriendLabel(currentStep.saturday, counts.saturday)}
+                                    value={formData.saturday[currentStep.saturday]?.name || ""}
+                                    onChange={(value) => handleInputChange("saturday", currentStep.saturday, "name", value)}
+                                    error={errors.saturday[currentStep.saturday]?.name}
+                                    required
+                                  />
+
+                                  <TextareaField
+                                    label="tell me a little bit about them"
+                                    placeholder="so that I can introduce them to people they'll vibe with:)"
+                                    value={formData.saturday[currentStep.saturday]?.about || ""}
+                                    onChange={(value) => handleInputChange("saturday", currentStep.saturday, "about", value)}
+                                    error={errors.saturday[currentStep.saturday]?.about}
+                                    required
+                                  />
+                                </>
+                              )}
+
+                              <motion.div
+                                className="flex gap-4"
+                                layout
+                                transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                              >
+                                <AnimatePresence mode="popLayout">
+                                  {currentStep.saturday > 0 && (
+                                    <motion.button
+                                      initial={{ opacity: 0, scale: 0.8 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      exit={{ opacity: 0, scale: 0.8 }}
+                                      transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                                      className="rounded-md bg-[#cacaca] px-5 py-4 text-black font-medium w-[calc(50%-0.5rem)] hover:bg-[#b8b8b8] transition-colors duration-200"
+                                      onClick={() => prevStep("saturday")}
+                                    >
+                                      back
+                                    </motion.button>
+                                  )}
+                                </AnimatePresence>
+
+                                <motion.button
+                                  layout
+                                  disabled={isSubmitting}
+                                  transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                                  className={`rounded-md bg-[#542a31] px-5 py-4 text-[#eae9e4] font-medium italic hover:bg-[#441f25] transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed ${
+                                    currentStep.saturday > 0 ? "w-[calc(50%-0.5rem)]" : "w-full"
+                                  }`}
+                                  onClick={() => {
+                                    if (currentStep.saturday < counts.saturday - 1) {
+                                      nextStep("saturday")
+                                    } else {
+                                      handleSubmit("saturday")
+                                    }
+                                  }}
+                                >
+                                  {isSubmitting ? "Submitting..." : currentStep.saturday < counts.saturday - 1 ? "next" : "rsvp"}
+                                </motion.button>
+                              </motion.div>
+                            </motion.div>
+                          </AnimatePresence>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <DisabledDateSelector
+                    day="saturday"
+                    date="march 22"
+                    tooltipText="unfortunately, this day is at capacity :/"
+                  />
+                )}
               </div>
             </div>
           </>
