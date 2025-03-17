@@ -345,22 +345,34 @@ export default function Home() {
         // Show loading state
         setIsSubmitting(true);
         
-        // Send the data to our Flask server
-        const response = await fetch(`${API_BASE_URL}/api/rsvp`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            day,
-            formData: formData[day],
-          }),
-        });
+        console.log(`Submitting to: ${API_BASE_URL}/api/rsvp`);
+        
+        let result;
+        try {
+          // Send the data to our Flask server
+          const response = await fetch(`${API_BASE_URL}/api/rsvp`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              day,
+              formData: formData[day],
+            }),
+            mode: 'cors', // Explicitly set CORS mode
+          });
 
-        const result = await response.json();
+          console.log('Response status:', response.status);
+          
+          result = await response.json();
+          console.log('Response data:', result);
 
-        if (!response.ok) {
-          throw new Error(result.error || 'Failed to submit RSVP');
+          if (!response.ok) {
+            throw new Error(result.error || `Failed to submit RSVP: ${response.status}`);
+          }
+        } catch (error) {
+          console.error('Fetch error:', error);
+          throw error;
         }
 
         console.log(`Submit ${day} form successful:`, result);

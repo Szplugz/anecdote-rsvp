@@ -22,7 +22,17 @@ logger.add(
 logger.add(sys.stderr, level="INFO")  # Also log to console
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+
+# Configure CORS with more specific settings
+CORS(app, resources={
+    r"/*": {
+        "origins": ["https://anecdote-rsvp.vercel.app", "http://localhost:3000", "*"],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "expose_headers": ["Content-Type"],
+        "supports_credentials": True
+    }
+})
 
 # Initialize Notion client
 notion = Client(auth=os.getenv("NOTION_API_KEY"))
@@ -124,10 +134,24 @@ def health_check():
             "timestamp": datetime.now().isoformat()
         }), 503
 
-@app.route("/api/rsvp", methods=["POST"])
+@app.route("/api/rsvp", methods=["POST", "OPTIONS"])
 def handle_rsvp():
-    """Handle RSVP submission"""
+    """Handle RSVP submission with improved CORS support"""
+    # Handle preflight OPTIONS request
+    if request.method == "OPTIONS":
+        # Add CORS headers for preflight request
+        response = jsonify({
+            "status": "ok"
+        })
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+        return response
+        
     try:
+        # Log headers for debugging
+        logger.debug(f"Request headers: {dict(request.headers)}")
+        
         data = request.get_json()
         logger.debug(f"Received RSVP request: {data}")
 
