@@ -50,18 +50,12 @@ def validate_notion_config():
 def create_notion_page(data):
     """Create a page in Notion database with error handling"""
     try:
+        # Start with required properties
         properties = {
             "Name": {
-                "title": [{"text": {"content": data["name"]}}]
-            },
-            "Email": {
-                "email": data["email"]
-            },
-            "Phone": {
-                "phone_number": data["phone"]
-            },
-            "About": {
-                "rich_text": [{"text": {"content": data["about"]}}]
+                "title": [{
+                    "text": {"content": data["name"] or "Unnamed Guest"}
+                }]
             },
             "Day": {
                 "select": {
@@ -74,6 +68,22 @@ def create_notion_page(data):
                 }
             }
         }
+
+        # Add email only if not empty
+        if data.get("email"):
+            properties["Email"] = {"email": data["email"]}
+
+        # Add phone only if not empty
+        if data.get("phone"):
+            properties["Phone"] = {"phone_number": data["phone"]}
+
+        # Add about only if not empty
+        if data.get("about"):
+            properties["About"] = {
+                "rich_text": [{
+                    "text": {"content": data["about"]}
+                }]
+            }
 
         if data.get("primary_contact"):
             properties["Primary Contact"] = {
@@ -157,7 +167,11 @@ def handle_rsvp():
                 "about": friend.get("about", ""),
                 "day": data["day"],
                 "guest_type": "Friend",
-                "primary_contact": primary_contact["name"]
+                "Primary Contact": {
+                    "rich_text": [{
+                        "text": {"content": primary_contact["name"]}
+                    }]
+                }
             }
             friend_response = create_notion_page(friend_data)
             friend_responses.append(friend_response)

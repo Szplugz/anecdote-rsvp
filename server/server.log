@@ -57,3 +57,61 @@ body.properties.Name.start should be defined, instead was `undefined`.
 2025-03-17 12:53:42.970 | DEBUG    | __main__:handle_rsvp:121 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'h', 'email': 'h@g.com', 'phone': '+1 (928)-983-9283', 'about': 'sdjwd'}]}
 2025-03-17 12:53:43.794 | INFO     | __main__:create_notion_page:93 - Successfully created Notion page for h
 2025-03-17 12:53:43.794 | INFO     | __main__:handle_rsvp:165 - Successfully processed RSVP for h and 0 friends
+2025-03-17 13:10:05.581 | DEBUG    | __main__:handle_rsvp:121 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'k', 'email': 'k@gmail.com', 'phone': '+1 (198)-918-2132', 'about': 'dsdw'}, {'name': 'jq', 'email': '', 'phone': '', 'about': 'wsd'}]}
+2025-03-17 13:10:06.185 | INFO     | __main__:create_notion_page:93 - Successfully created Notion page for k
+2025-03-17 13:10:06.312 | ERROR    | __main__:create_notion_page:96 - Failed to create Notion page: body failed validation. Fix one:
+body.properties.Email.title should be defined, instead was `undefined`.
+body.properties.Email.rich_text should be defined, instead was `undefined`.
+body.properties.Email.number should be defined, instead was `undefined`.
+body.properties.Email.url should be defined, instead was `undefined`.
+body.properties.Email.select should be defined, instead was `undefined`.
+body.properties.Email.multi_select should be defined, instead was `undefined`.
+body.properties.Email.people should be defined, instead was `undefined`.
+body.properties.Email.email should be populated or `null`, instead was `""`.
+body.properties.Email.phone_number should be defined, instead was `undefined`.
+body.properties.Email.date should be defined, instead was `undefined`.
+body.properties.Email.checkbox should be defined, instead was `undefined`.
+body.properties.Email.relation should be defined, instead was `undefined`.
+body.properties.Email.files should be defined, instead was `undefined`.
+body.properties.Email.status should be defined, instead was `undefined`.
+body.properties.Name.id should be defined, instead was `undefined`.
+body.properties.Name.name should be defined, instead was `undefined`.
+body.properties.Name.start should be defined, instead was `undefined`.
+Data: {'name': 'jq', 'email': '', 'phone': '', 'about': 'wsd', 'day': 'friday', 'guest_type': 'Friend', 'primary_contact': 'k'}
+2025-03-17 13:10:06.312 | ERROR    | __main__:handle_rsvp:184 - Notion error: Failed to create Notion page: body failed validation. Fix one:
+body.properties.Email.title should be defined, instead was `undefined`.
+body.properties.Email.rich_text should be defined, instead was `undefined`.
+body.properties.Email.number should be defined, instead was `undefined`.
+body.properties.Email.url should be defined, instead was `undefined`.
+body.properties.Email.select should be defined, instead was `undefined`.
+body.properties.Email.multi_select should be defined, instead was `undefined`.
+body.properties.Email.people should be defined, instead was `undefined`.
+body.properties.Email.email should be populated or `null`, instead was `""`.
+body.properties.Email.phone_number should be defined, instead was `undefined`.
+body.properties.Email.date should be defined, instead was `undefined`.
+body.properties.Email.checkbox should be defined, instead was `undefined`.
+body.properties.Email.relation should be defined, instead was `undefined`.
+body.properties.Email.files should be defined, instead was `undefined`.
+body.properties.Email.status should be defined, instead was `undefined`.
+body.properties.Name.id should be defined, instead was `undefined`.
+body.properties.Name.name should be defined, instead was `undefined`.
+body.properties.Name.start should be defined, instead was `undefined`.
+2025-03-17 13:11:09.603 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:11:27.074 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:11:46.214 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:11:47.046 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:12:51.302 | DEBUG    | __main__:handle_rsvp:131 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'hg', 'email': 'h@gmail.com', 'phone': '+1 (982)-193-8293', 'about': 'djehfgchd'}, {'name': 'sw', 'email': '', 'phone': '', 'about': 'sdwdw'}]}
+2025-03-17 13:12:51.815 | INFO     | __main__:create_notion_page:103 - Successfully created Notion page for hg
+2025-03-17 13:12:51.979 | ERROR    | __main__:create_notion_page:106 - Failed to create Notion page: Primary Contact is not a property that exists.
+Data: {'name': 'sw', 'email': '', 'phone': '', 'about': 'sdwdw', 'day': 'friday', 'guest_type': 'Friend', 'primary_contact': 'hg'}
+2025-03-17 13:12:51.979 | ERROR    | __main__:handle_rsvp:194 - Notion error: Failed to create Notion page: Primary Contact is not a property that exists.
+2025-03-17 13:16:00.821 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:16:58.432 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:16:59.254 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:18:45.505 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:21:00.499 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:21:01.115 | INFO     | __main__:validate_notion_config:45 - Successfully connected to Notion database
+2025-03-17 13:21:57.812 | DEBUG    | __main__:handle_rsvp:131 - Received RSVP request: {'day': 'friday', 'formData': [{'name': 'jqbs', 'email': 'hgwh@gmail.com', 'phone': '+1 (233)-323-3222', 'about': 'd'}, {'name': '1', 'email': '', 'phone': '', 'about': 'cdce'}]}
+2025-03-17 13:21:58.869 | INFO     | __main__:create_notion_page:103 - Successfully created Notion page for jqbs
+2025-03-17 13:21:59.358 | INFO     | __main__:create_notion_page:103 - Successfully created Notion page for 1
+2025-03-17 13:21:59.358 | INFO     | __main__:handle_rsvp:179 - Successfully processed RSVP for jqbs and 1 friends
