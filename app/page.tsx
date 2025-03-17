@@ -60,6 +60,8 @@ export default function Home() {
   })
 
   // Track submission status
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState('');
   const [submitted, setSubmitted] = useState<Record<DayKey, boolean>>({
     thursday: false,
     friday: false,
@@ -333,16 +335,47 @@ export default function Home() {
   }
 
   // Handle form submission
-  const handleSubmit = (day: keyof typeof counts) => {
+  const handleSubmit = async (day: keyof typeof counts) => {
     if (validateStep(day, currentStep[day])) {
-      // In a real app, you would send the data to a server here
-      console.log(`Submit ${day} form`, formData[day])
+      try {
+        // Show loading state
+        setIsSubmitting(true);
+        
+        // Send the data to our API endpoint
+        const response = await fetch('/api/rsvp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            day,
+            formData: formData[day],
+          }),
+        });
 
-      // Set submitted state to show success screen
-      setSubmitted((prev) => ({
-        ...prev,
-        [day]: true,
-      }))
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to submit RSVP');
+        }
+
+        console.log(`Submit ${day} form successful:`, result);
+
+        // Set submitted state to show success screen
+        setSubmitted((prev) => ({
+          ...prev,
+          [day]: true,
+        }));
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        setSubmissionError(
+          error instanceof Error 
+            ? error.message 
+            : 'An error occurred while submitting your RSVP. Please try again.'
+        );
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   }
 
@@ -761,8 +794,9 @@ export default function Home() {
 
                             <motion.button
                               layout
+                              disabled={isSubmitting}
                               transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
-                              className={`rounded-md bg-[#542a31] px-5 py-4 text-[#eae9e4] font-medium italic hover:bg-[#441f25] transition-colors duration-200 ${
+                              className={`rounded-md bg-[#542a31] px-5 py-4 text-[#eae9e4] font-medium italic hover:bg-[#441f25] transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed ${
                                 currentStep.friday > 0 ? "w-[calc(50%-0.5rem)]" : "w-full"
                               }`}
                               onClick={() => {
@@ -773,7 +807,7 @@ export default function Home() {
                                 }
                               }}
                             >
-                              {currentStep.friday < counts.friday - 1 ? "next" : "rsvp"}
+                              {isSubmitting ? "Submitting..." : currentStep.friday < counts.friday - 1 ? "next" : "rsvp"}
                             </motion.button>
                           </motion.div>
                         </motion.div>
@@ -781,6 +815,20 @@ export default function Home() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+                
+                {/* Error message */}
+                {submissionError && (
+                  <div className="mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-md">
+                    {submissionError}
+                    <button 
+                      className="ml-2 text-red-700 font-bold"
+                      onClick={() => setSubmissionError('')}
+                      aria-label="Dismiss error"
+                    >
+                      ×
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className={day3Class}>
