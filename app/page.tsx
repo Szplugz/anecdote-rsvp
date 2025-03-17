@@ -1021,8 +1021,8 @@ function DisabledDateSelector({ day, date, tooltipText }: { day: string; date: s
   return (
     <div className="flex items-center justify-between py-2 relative">
       <div>
-        <span className="text-gray-400 text-2xl font-medium">{day}</span>{" "}
-        <span className="text-gray-400 text-2xl font-normal">{date}</span>
+        <span className="text-gray-400 text-xl sm:text-2xl font-medium">{day}</span>{" "}
+        <span className="text-gray-400 text-xl sm:text-2xl font-normal">{date}</span>
       </div>
       <div className="relative">
         <div
