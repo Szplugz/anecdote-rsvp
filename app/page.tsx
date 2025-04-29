@@ -23,9 +23,9 @@ export default function Home() {
   })
 
   const [formData, setFormData] = useState({
-    thursday: [{ name: "", email: "", phone: "", about: "" }],
-    friday: [{ name: "", email: "", phone: "", about: "" }],
-    saturday: [{ name: "", email: "", phone: "", about: "" }],
+    thursday: [{ name: "", email: "", phone: "", about: "", guestType: "Primary" }],
+    friday: [{ name: "", email: "", phone: "", about: "", guestType: "Primary" }],
+    saturday: [{ name: "", email: "", phone: "", about: "", guestType: "Primary" }],
   })
 
   // Track validation errors
@@ -327,16 +327,34 @@ export default function Home() {
   }
 
   // Handle form submission
-  const handleSubmit = (day: keyof typeof counts) => {
+  const handleSubmit = async (day: keyof typeof counts) => {
     if (validateStep(day, currentStep[day])) {
-      // In a real app, you would send the data to a server here
-      console.log(`Submit ${day} form`, formData[day])
+      try {
+        const response = await fetch('/api/rsvp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...formData[day][0],
+            day: day,
+          }),
+        });
 
-      // Set submitted state to show success screen
-      setSubmitted((prev) => ({
-        ...prev,
-        [day]: true,
-      }))
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to submit RSVP');
+        }
+
+        // Set submitted state to show success screen
+        setSubmitted((prev) => ({
+          ...prev,
+          [day]: true,
+        }));
+      } catch (error) {
+        console.error('Error submitting RSVP:', error);
+        alert(error instanceof Error ? error.message : 'Failed to submit RSVP');
+      }
     }
   }
 
