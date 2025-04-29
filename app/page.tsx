@@ -82,7 +82,7 @@ export default function Home() {
       // Wait for other animations to complete (700ms duration + 500ms max delay) + 3 seconds extra
       const timer = setTimeout(() => {
         setStartBlurAnimation(true);
-      }, 4200); // 700ms + 500ms + 3000ms
+      }, 1000); // 700ms + 500ms + 3000ms
 
       return () => clearTimeout(timer);
     }
@@ -845,13 +845,13 @@ export default function Home() {
               }`}
             >
               <h2
-                className={`text-base sm:text-lg text-[#949494] mb-6 blurred-text ${
+                className={`text-lg text-left sm:text-lg text-[#949494] mb-6 blurred-text ${
                   startBlurAnimation ? "unblurred" : ""
                 }`}
               >
                 spring is here!
               </h2>
-              <p className="text-base sm:text-lg leading-relaxed mb-8">
+              <p className="text-lg text-left sm:text-lg leading-relaxed mb-8">
                 <span
                   className={`text-[#949494] blurred-text ${
                     startBlurAnimation ? "unblurred" : ""
@@ -1090,10 +1090,10 @@ export default function Home() {
                               {currentStep.friday < counts.friday - 1 ? (
                                 "next"
                               ) : isLoading ? (
-                                <>
-                                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                  Submitting...
-                                </>
+                                <div className="flex items-center justify-center gap-2">
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                  <span>Submitting...</span>
+                                </div>
                               ) : (
                                 "rsvp"
                               )}
@@ -1251,7 +1251,7 @@ function DateSelector({
   }, [count, day]);
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between py-2 gap-3 sm:gap-0">
+    <div className="flex flex-row sm:flex-row sm:items-center justify-between py-2 gap-3 sm:gap-0">
       <div>
         <span className="text-[#542a31] text-xl sm:text-2xl font-medium">
           {day}
