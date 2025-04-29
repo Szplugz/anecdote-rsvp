@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Minus, Plus } from "lucide-react"
+import { Minus, Plus, Loader2 } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Download } from "lucide-react"
@@ -48,6 +48,7 @@ export default function Home() {
 
   // Add a state for phone error message
   const [phoneError, setPhoneError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   // Add state to control blur animation
   const [startBlurAnimation, setStartBlurAnimation] = useState(false)
@@ -329,6 +330,7 @@ export default function Home() {
   // Handle form submission
   const handleSubmit = async (day: keyof typeof counts) => {
     if (validateStep(day, currentStep[day])) {
+      setIsLoading(true)
       try {
         const response = await fetch('/api/rsvp', {
           method: 'POST',
@@ -354,6 +356,8 @@ export default function Home() {
       } catch (error) {
         console.error('Error submitting RSVP:', error);
         alert(error instanceof Error ? error.message : 'Failed to submit RSVP');
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -952,8 +956,18 @@ export default function Home() {
                                   handleSubmit("friday")
                                 }
                               }}
+                              disabled={isLoading}
                             >
-                              {currentStep.friday < counts.friday - 1 ? "next" : "rsvp"}
+                              {currentStep.friday < counts.friday - 1 ? (
+                                "next"
+                              ) : isLoading ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                  Submitting...
+                                </>
+                              ) : (
+                                "rsvp"
+                              )}
                             </motion.button>
                           </motion.div>
                         </motion.div>
