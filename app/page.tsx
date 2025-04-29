@@ -804,13 +804,13 @@ export default function Home() {
   // Add this right before the main return statement
   if (!isMounted) {
     // Return a minimal placeholder during SSR to prevent hydration issues
-    return <div className="min-h-screen bg-[#eae9e4]"></div>;
+    return <div className="min-h-screen bg-[#eae9e4] overflow-x-hidden"></div>;
   }
 
   // Update the main container to have better padding and max-width for readability
   return (
-    <div className="flex min-h-screen flex-col items-center bg-[#eae9e4] px-4 sm:px-6 py-8 sm:py-12 md:py-16">
-      <div className="w-full max-w-[90%] sm:max-w-md md:max-w-lg">
+    <div className="min-h-screen bg-[#eae9e4] overflow-x-hidden">
+      <div className="w-full max-w-lg mx-auto px-8 py-8 sm:py-12 md:py-16">
         {/* Check if any day is submitted to show the success screen */}
         {submitted.thursday ? (
           renderSuccessScreen("thursday")
